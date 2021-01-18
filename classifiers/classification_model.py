@@ -37,7 +37,9 @@ class ClassificationModel:
             cur = self.initializer(**{self.tune_parameter: parameter})
             score = cross_val_score(cur, self.training_samples, self.training_labels).mean()
             scores.append(score)
+            print(f'{self.tune_parameter}={parameter}')
             maxi = max(maxi, (score, parameter))
+
         self.plot([i + 1 for i in range(end - start + 1)], scores, self.tune_parameter, MEAN_VALUE_OF_CROSS_VALIDATION,
                   f'{self.name} tuning')
         self.classifier = self.initializer(**{self.tune_parameter: maxi[1]})
@@ -47,16 +49,13 @@ class ClassificationModel:
         self.report_dict[F1_SCORE][MICRO] = f1_score(self.test_labels, self.predicted, average=MICRO)
         self.report_dict[F1_SCORE][MACRO] = f1_score(self.test_labels, self.predicted, average=MACRO)
         self.report_dict[F1_SCORE][WEIGHTED] = f1_score(self.test_labels, self.predicted, average=WEIGHTED)
-
         self.report_dict[RECALL_SCORE][MICRO] = recall_score(self.test_labels, self.predicted, average=MICRO)
         self.report_dict[RECALL_SCORE][MACRO] = recall_score(self.test_labels, self.predicted, average=MACRO)
         self.report_dict[RECALL_SCORE][WEIGHTED] = recall_score(self.test_labels, self.predicted, average=WEIGHTED)
-
         self.report_dict[PRECISION_SCORE][MICRO] = precision_score(self.test_labels, self.predicted, average=MICRO)
         self.report_dict[PRECISION_SCORE][MACRO] = precision_score(self.test_labels, self.predicted, average=MACRO)
         self.report_dict[PRECISION_SCORE][WEIGHTED] = precision_score(self.test_labels, self.predicted,
                                                                       average=WEIGHTED)
-
         self.report_dict[SCORE] = self.classifier.score(self.test_samples, self.test_labels)
         self.report_dict[CONFUSION_MATRIX] = confusion_matrix(self.test_labels, self.predicted)
 
