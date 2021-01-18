@@ -31,7 +31,6 @@ if __name__ == '__main__':
     data_tuple = input_parser.get_samples_and_labels()
 
     samples, labels = np.array(data_tuple[0]), np.array(data_tuple[1])
-    print(len(samples), len(labels))
     training_samples, test_samples, training_labels, test_labels = train_test_split(samples, labels,
                                                                                     test_size=TEST_SIZE,
                                                                                     random_state=0)

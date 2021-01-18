@@ -32,6 +32,7 @@ class ClassificationModel:
             return
         scores = []
         maxi = (0, 0)
+        print(f'tunning {self.name}')
         for parameter in range(start, end + 1):
             cur = self.initializer(**{self.tune_parameter: parameter})
             score = cross_val_score(cur, self.training_samples, self.training_labels).mean()
